@@ -11,10 +11,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        exclude = ['project']
+        fields = '__all__'
+        read_only_field = ['created_at']
         
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-        # read_only_field = ['owner', 'created_at']
+        read_only_field = ['created_at']
