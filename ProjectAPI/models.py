@@ -54,7 +54,7 @@ class Comment(models.Model):
     content = models.TextField(max_length=350)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
         return self.content[:10]
