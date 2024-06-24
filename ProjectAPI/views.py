@@ -1,48 +1,25 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+from rest_framework import viewsets
 
-from .models import Project
-from .serializers import ProjectSerializer
-class ProjectViewSet(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Project.objects.all()
-        serializer = ProjectSerializer(queryset, many=True)
-        return Response(serializer.data)
+from .models import Project, Task, Comment
+from .serializers import ProjectSerializer, TaskSerializer, CommentSerializer
 
-    def retrieve(self, request, pk=None):
-        queryset = Project.objects.all()
-        project = get_object_or_404(queryset, pk=pk)
-        serializer = ProjectSerializer(project)
-        return Response(serializer.data)
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
     
-    def create(self, request):
-        serializer = ProjectSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def update(self, request, pk=None):
-        queryset = Project.objects.all()
-        project = get_object_or_404(queryset, pk=pk)
-        serializer = ProjectSerializer(project, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def partial_update(self, request, pk=None):
-        queryset = Project.objects.all()
-        project = get_object_or_404(queryset, pk=pk)
-        serializer = ProjectSerializer(project, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def destroy(self, request, pk=None):
-        queryset = Project.objects.all()
-        project = get_object_or_404(queryset, pk=pk)
-        project.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        project_id = self.kwargs.get('project_pk')
+        if project_id:
+            return Task.objects.filter(project_id=project_id)
+        return Task.objects.all()
+
+    def perform_create(self, serializer):
+        project_id = self.kwargs['project_pk']
+        project = get_object_or_404(Project, pk=project_id)
+        serializer.save(project=project)
+        
+        
