@@ -28,7 +28,7 @@ A comprehensive project management system to manage users, projects, tasks, and 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/jobayer200/TeamColab.git
+   git clone https://github.com/Jobayer98/TeamColab.git
    cd TeamColab
    ```
 
