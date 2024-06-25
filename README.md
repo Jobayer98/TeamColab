@@ -1,6 +1,6 @@
-# Project Title
+## Project Title
 
-TeamColab Management System
+### TeamColab Management System
 
 ## Description
 
@@ -23,7 +23,7 @@ A comprehensive project management system to manage users, projects, tasks, and 
 
 ## Project Setup
 
-### Step-by-Step Setup with `venv`
+### Setup with `venv`
 
 1. **Clone the repository:**
 
@@ -62,7 +62,7 @@ A comprehensive project management system to manage users, projects, tasks, and 
    python manage.py runserver
    ```
 8. **Access the application:** <br>
-   Open your web browser and go to` http://127.0.0.1:8000/`
+   Open your web browser and go to` http://127.0.0.1:8000/` or ` http://127.0.0.1:8000/swagger-doc/`
 
 ## API Routes and Endpoints
 
@@ -71,7 +71,8 @@ A comprehensive project management system to manage users, projects, tasks, and 
 | Feature  | HTTP Method | Endpoint                          | Description                               |
 | -------- | ----------- | --------------------------------- | ----------------------------------------- |
 | Refresh  | POST        | api/token/refresh/                | Return access token                       |
-| token    |             |                                   |                                           |
+|          |             |                                   |                                           |
+| Docs     | GET         | swagger-doc/                      | Swagger Documentation                     |
 |          |             |                                   |                                           |
 | Users    | POST        | /api/users/register/              | Create a new user                         |
 |          | POST        | /api/users/login/                 | Authenticate a user and return a token    |
