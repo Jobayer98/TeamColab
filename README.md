@@ -70,6 +70,9 @@ A comprehensive project management system to manage users, projects, tasks, and 
 
 | Feature  | HTTP Method | Endpoint                          | Description                               |
 | -------- | ----------- | --------------------------------- | ----------------------------------------- |
+| Refresh  | POST        | api/token/refresh/                | Return access token                       |
+| token    |             |                                   |                                           |
+|          |             |                                   |                                           |
 | Users    | POST        | /api/users/register/              | Create a new user                         |
 |          | POST        | /api/users/login/                 | Authenticate a user and return a token    |
 |          | GET         | /api/users/{id}/                  | Retrieve details of a specific user       |
