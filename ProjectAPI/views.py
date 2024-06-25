@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
 
 from .models import Project, Task, Comment
 from .serializers import ProjectSerializer, TaskSerializer, CommentSerializer
@@ -11,6 +12,7 @@ class ProjectViewSet(viewsets.ViewSet):
         serializer = ProjectSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProjectSerializer)
     def create(self, request):
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,6 +26,7 @@ class ProjectViewSet(viewsets.ViewSet):
         serializer = ProjectSerializer(project)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProjectSerializer)
     def update(self, request, pk=None):
         queryset = Project.objects.all()
         project = get_object_or_404(queryset, pk=pk)
@@ -33,6 +36,7 @@ class ProjectViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(request_body=ProjectSerializer)
     def partial_update(self, request, pk=None):
         queryset = Project.objects.all()
         project = get_object_or_404(queryset, pk=pk)
@@ -54,6 +58,7 @@ class TaskViewSet(viewsets.ViewSet):
         serializer = TaskSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=TaskSerializer)
     def create(self, request, project_pk=None):
         data = request.data.copy()
         data['project'] = project_pk
@@ -69,6 +74,7 @@ class TaskViewSet(viewsets.ViewSet):
         serializer = TaskSerializer(task)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=TaskSerializer)
     def update(self, request, pk=None):
         queryset = Task.objects.all()
         task = get_object_or_404(queryset, pk=pk)
@@ -78,6 +84,7 @@ class TaskViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(request_body=TaskSerializer)
     def partial_update(self, request, pk=None):
         queryset = Task.objects.all()
         task = get_object_or_404(queryset, pk=pk)
@@ -100,6 +107,7 @@ class CommentViewSet(viewsets.ViewSet):
         serializer = CommentSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CommentSerializer)
     def create(self, request, task_pk=None):
         data = request.data.copy()
         data['task'] = task_pk
@@ -115,6 +123,7 @@ class CommentViewSet(viewsets.ViewSet):
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CommentSerializer)
     def update(self, request, pk=None):
         queryset = Comment.objects.all()
         comment = get_object_or_404(queryset, pk=pk)
@@ -124,6 +133,7 @@ class CommentViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(request_body=CommentSerializer)
     def partial_update(self, request, pk=None):
         queryset = Comment.objects.all()
         comment = get_object_or_404(queryset, pk=pk)

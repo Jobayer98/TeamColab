@@ -6,10 +6,12 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import JSONParser
+from drf_yasg.utils import swagger_auto_schema
 
 from .models import CustomUser as User
-from .serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer, UserSerializer
 
+@swagger_auto_schema(method='post', request_body=RegistrationSerializer)
 @api_view(['POST'])
 def registration_view(request):
     if request.method == 'POST':
@@ -33,9 +35,10 @@ class UserView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
     parser_classes = [JSONParser]
-
+    
     def get(self, request, *args, **kwargs):
         try:
+            print(request.header)
             user = User.objects.get(id=kwargs['id'])
             if request.user.id == user.id:
                 return Response({
@@ -56,6 +59,7 @@ class UserView(APIView):
             user = User.objects.get(id=kwargs['id'])
             if request.user.id == user.id:
                 user.username = request.data.get('username', user.username)
+                user.password = request.data.get('password', user.password)
                 user.first_name = request.data.get('first_name', user.first_name)
                 user.last_name = request.data.get('last_name', user.last_name)
                 user.email = request.data.get('email', user.email)
